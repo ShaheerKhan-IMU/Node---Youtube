@@ -4,7 +4,18 @@ import dotenv from "dotenv";
 
 dotenv.config({ path: "./env" });
 
-connectDB();
+connectDB()
+  .then(() => {
+    app.on("error", (error) => {
+      console.log("Error has found in connecting the DB ", error);
+    });
+    app.listen(process.env.PORT || 8000, () => {
+      console.log(`Server is ready at PORT: ${process.env.PORT}`);
+    });
+  })
+  .catch((error) => {
+    console.log("Error has found in connecting the DB ", error);
+  });
 
 /* easy approach
 import express from "express";
